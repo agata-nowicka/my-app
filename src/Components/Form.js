@@ -12,7 +12,7 @@ import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import Adress from './Adress';
-import Payment from './Payment';
+import Receipt from './Receipt';
 import Review from './Review';
 
 const useStyles = makeStyles((theme) => ({
@@ -58,7 +58,7 @@ function getStepContent(step) {
     case 0:
       return <Adress />;
     case 1:
-      return <Payment />;
+      return <Receipt />;
     case 2:
       return <Review />;
     default:
