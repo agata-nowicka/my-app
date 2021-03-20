@@ -9,11 +9,14 @@ import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
-import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import Adress from './Adress';
 import Receipt from './Receipt';
 import Review from './Review';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -50,15 +53,20 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
     marginLeft: theme.spacing(1),
   },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+    marginBottom: theme.spacing(6),
+  }, 
 }));
 const steps = ['Shipping address', 'Payment details', 'Review your order'];
 
-function getStepContent(step) {
+function getStepContent(step, prop) {
   switch (step) {
     case 0:
       return <Adress />;
-    case 1:
-      return <Receipt />;
+    case 1:      
+      return <Receipt choice={prop}/>;
     case 2:
       return <Review />;
     default:
@@ -70,6 +78,11 @@ function getStepContent(step) {
 const Form = () => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
+  const [choice, setChoice] = React.useState('null');
+  const [state, setState] = React.useState({
+    type: '',    
+  });
+ 
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -78,6 +91,18 @@ const Form = () => {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
+
+  const handleChange = (event) => {
+    const name = event.target.name;
+    setState({
+      ...state,
+      [name]: event.target.value,
+    });   
+     
+    setChoice(event.target.value);
+    console.log(choice);
+  };
+  
 
   return (
     <React.Fragment>
@@ -94,6 +119,7 @@ const Form = () => {
         <Typography component="h1" variant="h4" align="center">
           Checkout
         </Typography>
+        
         <Stepper activeStep={activeStep} className={classes.stepper}>
           {steps.map((label) => (
             <Step key={label}>
@@ -101,6 +127,29 @@ const Form = () => {
             </Step>
           ))}
         </Stepper>
+        <Typography variant="h6" gutterBottom>
+        Invoice details
+      </Typography>
+     
+        <Grid item xs={12}>
+        <FormControl required className={classes.formControl}>
+        <InputLabel htmlFor="type-native-required">Document type</InputLabel>
+        <Select
+          native
+          value={state.age}
+          onChange={handleChange}
+          name="type"
+          inputProps={{
+            id: 'type-native-required',
+          }}
+        >
+          <option aria-label="None" value="" />
+          <option value={'Receipt'}>Receipt</option>
+          <option value={'Invoice'}>Invoice</option>
+          <option value={'API'}> Advance payment invoice</option>
+        </Select>       
+      </FormControl>
+        </Grid>
         <React.Fragment>
           {activeStep === steps.length ? (
             <React.Fragment>
@@ -114,7 +163,7 @@ const Form = () => {
             </React.Fragment>
           ) : (
             <React.Fragment>
-              {getStepContent(activeStep)}
+              {getStepContent(activeStep, choice)}
               <div className={classes.buttons}>
                 {activeStep !== 0 && (
                   <Button onClick={handleBack} className={classes.button}>
@@ -133,7 +182,9 @@ const Form = () => {
             </React.Fragment>
           )}
         </React.Fragment>
-      </Paper>    
+        
+      </Paper>  
+      
     </main>
   </React.Fragment>
   );

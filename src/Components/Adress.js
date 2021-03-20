@@ -3,11 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
+
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -27,49 +23,17 @@ const useStyles = makeStyles((theme) => ({
 
 const Adress = () => {
   const classes = useStyles();
-  const [state, setState] = React.useState({
-    type: '',
-    status: ' ',
-    sposobPlatnosci: ' ',
-  });
   const [selectedDate, setSelectedDate] = React.useState(new Date());
-
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
 
-  const handleChange = (event) => {
-    const name = event.target.name;
-    setState({
-      ...state,
-      [name]: event.target.value,
-    });
-  };
+
+  
   return (
     <React.Fragment>
-   <Typography variant="h6" gutterBottom>
-        Invoice details
-      </Typography>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-        <FormControl required className={classes.formControl}>
-        <InputLabel htmlFor="type-native-required">Document type</InputLabel>
-        <Select
-          native
-          value={state.age}
-          onChange={handleChange}
-          name="type"
-          inputProps={{
-            id: 'type-native-required',
-          }}
-        >
-          <option aria-label="None" value="" />
-          <option value={'Receipt'}>Receipt</option>
-          <option value={'Invoice'}>Invoice</option>
-          <option value={'API'}> Advance payment invoice</option>
-        </Select>       
-      </FormControl>
-        </Grid>
+       <Grid container spacing={3}>
+   
         
         <Grid item xs={12}>
           <TextField
@@ -112,7 +76,7 @@ const Adress = () => {
           variant="inline"
           format="MM/dd/yyyy"
           margin="normal"
-          id="date-picker-inline"
+          id="date-picker-inline2"
           label="Sale date"
           value={selectedDate}
           onChange={handleDateChange}
